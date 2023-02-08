@@ -1,0 +1,6 @@
+{
+    "cSpell.enabled": true,
+    "typescript.suggest.paths": false,
+    "javascript.suggest.paths": false,
+    "python.formatting.provider": "black"
+}

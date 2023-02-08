@@ -1,0 +1,1 @@
+pyside6-uic.exe .\src\form.ui -o .\src\ui_form.py
