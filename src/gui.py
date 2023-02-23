@@ -18,6 +18,9 @@ class MainWidget(QtWidgets.QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.ui = Ui_MainWidget()
+        self.currentPolygon = QPolygon()
+        
+        # Init GUI
         self.ui.setupUi(self)
         self.config = appsettings.loadConfig()
         self.api = SaridaEdgeApiWrapper()
@@ -29,6 +32,7 @@ class MainWidget(QtWidgets.QWidget):
             self.on_pBtnGetCurrentDetails_clicked
         )
         self.ui.pBtnTest.clicked.connect(self.on_pBtnTest_clicked)
+        self.ui.hSliderDrawRange.valueChanged.connect(self.on_hSliderDrawRange_valueChanged)
 
         # Init canvas
         self.setCanvasSize(500, 500)
@@ -43,26 +47,62 @@ class MainWidget(QtWidgets.QWidget):
         canvas.fill(Qt.white)
         self.ui.visualOutputLabel.setPixmap(canvas)
 
-    def drawPolygon(self, polygon: QPolygon):
+    def drawPolygon(self, polygon: QPolygon, max_len: int):
+        polygon_to_draw = polygon.first(max_len)
         self.clearCanvas()
         canvas = self.ui.visualOutputLabel.pixmap()
         painter = QtGui.QPainter(canvas)
-        painter.drawPolygon(polygon)
+        painter.drawPolyline(polygon_to_draw)
+        # painter.drawPolygon(polygon_to_draw)
         painter.end()
         self.ui.visualOutputLabel.setPixmap(canvas)
+        
+    def setCurrentPolygonFromApi(self) -> QPolygon:
+        # Get polygon from REST call
+        call_result = self.api.analysisResultsDetailsCurrentGet()
+        self.currentPolygon = self.api.analysisResultsDetailsToQPolygon(
+            call_result=call_result
+        )
+        
+        # Arrange slider and draw polygon
+        slider_was_on_max = bool(self.ui.hSliderDrawRange.value() == self.ui.hSliderDrawRange.maximum())
+        self.ui.hSliderDrawRange.setMaximum(len(self.currentPolygon))
+        if slider_was_on_max:
+            self.ui.hSliderDrawRange.setValue(self.ui.hSliderDrawRange.maximum())
+        else:
+            self.drawPolygon(self.currentPolygon, self.ui.hSliderDrawRange.value())
+        
+        # Text output
+        self.ui.textOutputEdit.setText(str(self.currentPolygon))
 
     def on_pBtnGetCurrent_clicked(self):
         result = self.api.analysisResultsCurrentGet()
         self.ui.textOutputEdit.setText(str(result))
 
     def on_pBtnGetCurrentDetails_clicked(self):
-        call_result = self.api.analysisResultsDetailsCurrentGet()
-        polygon = self.api.analysisResultsDetailsToQPolygon(
-            call_result=call_result
-        )
-        self.drawPolygon(polygon)
+        self.setCurrentPolygonFromApi()
+
+    def on_hSliderDrawRange_valueChanged(self, value: int):
+        if not self.currentPolygon or len(self.currentPolygon) < 1:
+            return
+        self.drawPolygon(self.currentPolygon, value)
 
     def on_pBtnTest_clicked(self):
+        from swagger_client.models import Polygon, Point
+        
+        for j in range(0,4):
+            test_polygon = Polygon(point_list=[])
+            print(f'round={j} id of test_polygon={id(test_polygon)}')
+            print(f'round={j} id of test_polygon._point_list={id(test_polygon._point_list)}')
+            if test_polygon.point_list is None:
+                test_polygon.point_list = []
+                pass
+            
+            for i in range(0,100):
+                test_polygon.point_list.append(Point(i, i))
+                
+            # self.ui.textOutputEdit.setText(str(test_polygon))
+        
         pass
 
 

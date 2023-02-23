@@ -16,8 +16,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
-    QPushButton, QSizePolicy, QTabWidget, QTextEdit,
-    QVBoxLayout, QWidget)
+    QPushButton, QSizePolicy, QSlider, QTabWidget,
+    QTextEdit, QVBoxLayout, QWidget)
 
 class Ui_MainWidget(object):
     def setupUi(self, MainWidget):
@@ -49,6 +49,13 @@ class Ui_MainWidget(object):
         self.visualOutputLabel.setFrameShape(QFrame.Box)
 
         self.verticalLayout_4.addWidget(self.visualOutputLabel)
+
+        self.hSliderDrawRange = QSlider(self.tabVisualOutput)
+        self.hSliderDrawRange.setObjectName(u"hSliderDrawRange")
+        self.hSliderDrawRange.setValue(99)
+        self.hSliderDrawRange.setOrientation(Qt.Horizontal)
+
+        self.verticalLayout_4.addWidget(self.hSliderDrawRange)
 
         self.tabWidget.addTab(self.tabVisualOutput, "")
 
