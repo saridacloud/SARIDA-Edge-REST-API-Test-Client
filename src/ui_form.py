@@ -64,10 +64,10 @@ class Ui_MainWidget(object):
         self.tab.setObjectName(u"tab")
         self.verticalLayout = QVBoxLayout(self.tab)
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.textEdit = QTextEdit(self.tab)
-        self.textEdit.setObjectName(u"textEdit")
+        self.textEdit_video_player = QTextEdit(self.tab)
+        self.textEdit_video_player.setObjectName(u"textEdit_video_player")
 
-        self.verticalLayout.addWidget(self.textEdit)
+        self.verticalLayout.addWidget(self.textEdit_video_player)
 
         self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
@@ -104,6 +104,7 @@ class Ui_MainWidget(object):
 
         self.sBox_frameno = QSpinBox(self.groupBox_2)
         self.sBox_frameno.setObjectName(u"sBox_frameno")
+        self.sBox_frameno.setMaximum(10000000)
 
         self.horizontalLayout_5.addWidget(self.sBox_frameno)
 

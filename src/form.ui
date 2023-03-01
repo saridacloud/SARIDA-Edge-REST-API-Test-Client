@@ -67,7 +67,7 @@
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
-          <widget class="QTextEdit" name="textEdit"/>
+          <widget class="QTextEdit" name="textEdit_video_player"/>
          </item>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -115,7 +115,11 @@
                </widget>
               </item>
               <item>
-               <widget class="QSpinBox" name="sBox_frameno"/>
+               <widget class="QSpinBox" name="sBox_frameno">
+                <property name="maximum">
+                 <number>10000000</number>
+                </property>
+               </widget>
               </item>
               <item>
                <widget class="QPushButton" name="pBtn_frameno_set">

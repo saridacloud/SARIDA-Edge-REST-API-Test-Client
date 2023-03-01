@@ -20,7 +20,7 @@ class MainWidget(QtWidgets.QWidget):
         super().__init__(parent)
         self.ui = Ui_MainWidget()
         self.currentPolygon = QPolygon()
-        
+
         # Init GUI
         self.ui.setupUi(self)
         self.config = appsettings.loadConfig()
@@ -33,7 +33,15 @@ class MainWidget(QtWidgets.QWidget):
             self.on_pBtnGetCurrentDetails_clicked
         )
         self.ui.pBtnTest.clicked.connect(self.on_pBtnTest_clicked)
-        self.ui.hSliderDrawRange.valueChanged.connect(self.on_hSliderDrawRange_valueChanged)
+        self.ui.hSliderDrawRange.valueChanged.connect(
+            self.on_hSliderDrawRange_valueChanged
+        )
+        # Connect ui signals / video player
+        self.ui.pBtn_playback_play.clicked.connect(self.on_pBtn_playback_play_clicked)
+        self.ui.pBtn_playback_pause.clicked.connect(self.on_pBtn_playback_pause_clicked)
+        self.ui.pBtn_playback_get.clicked.connect(self.on_pBtn_playback_get_clicked)
+        self.ui.pBtn_frameno_get.clicked.connect(self.on_pBtn_frameno_get_clicked)
+        self.ui.pBtn_frameno_set.clicked.connect(self.on_pBtn_frameno_set_clicked)
 
         # Init canvas
         self.setCanvasSize(500, 500)
@@ -42,7 +50,7 @@ class MainWidget(QtWidgets.QWidget):
         canvas = QtGui.QPixmap(QtCore.QSize(width, height))
         canvas.fill(Qt.white)
         self.ui.visualOutputLabel.setPixmap(canvas)
-        
+
     def clearCanvas(self):
         canvas = self.ui.visualOutputLabel.pixmap()
         canvas.fill(Qt.white)
@@ -57,32 +65,38 @@ class MainWidget(QtWidgets.QWidget):
         # painter.drawPolygon(polygon_to_draw)
         painter.end()
         self.ui.visualOutputLabel.setPixmap(canvas)
-        
+
     def setCurrentPolygonFromApi(self) -> QPolygon:
         # Get canvas size
         canvas_size = self.api.analysisVideoResolutionGet()
         if not canvas_size:
-            QMessageBox.critical(self, "API Error", "Failed to call /analysis/video/resolution")
+            QMessageBox.critical(
+                self, "API Error", "Failed to call /analysis/video/resolution"
+            )
             return
         self.setCanvasSize(width=canvas_size.width, height=canvas_size.height)
-        
+
         # Get polygon from REST call
         call_result = self.api.analysisResultsDetailsCurrentGet()
         if not call_result:
-            QMessageBox.critical(self, "API Error", "Failed to call /analysis/results/details/current")
+            QMessageBox.critical(
+                self, "API Error", "Failed to call /analysis/results/details/current"
+            )
             return
         self.currentPolygon = self.api.analysisResultsDetailsToQPolygon(
             call_result=call_result
         )
-        
+
         # Arrange slider and draw polygon
-        slider_was_on_max = bool(self.ui.hSliderDrawRange.value() == self.ui.hSliderDrawRange.maximum())
+        slider_was_on_max = bool(
+            self.ui.hSliderDrawRange.value() == self.ui.hSliderDrawRange.maximum()
+        )
         self.ui.hSliderDrawRange.setMaximum(len(self.currentPolygon))
         if slider_was_on_max:
             self.ui.hSliderDrawRange.setValue(self.ui.hSliderDrawRange.maximum())
         else:
             self.drawPolygon(self.currentPolygon, self.ui.hSliderDrawRange.value())
-        
+
         # Text output
         self.ui.textOutputEdit.setText(str(self.currentPolygon))
 
@@ -98,24 +112,26 @@ class MainWidget(QtWidgets.QWidget):
             return
         self.drawPolygon(self.currentPolygon, value)
 
-    def on_pBtnTest_clicked(self):
-        from swagger_client.models import Polygon, Point
-        
-        for j in range(0,4):
-            test_polygon = Polygon(point_list=[])
-            print(f'round={j} id of test_polygon={id(test_polygon)}')
-            print(f'round={j} id of test_polygon._point_list={id(test_polygon._point_list)}')
-            if test_polygon.point_list is None:
-                test_polygon.point_list = []
-                pass
-            
-            for i in range(0,100):
-                test_polygon.point_list.append(Point(i, i))
-                
-            # self.ui.textOutputEdit.setText(str(test_polygon))
-        
-        pass
+    def on_pBtn_playback_play_clicked(self):
+        self.api.videoPlayerRunning = True
 
+    def on_pBtn_playback_pause_clicked(self):
+        self.api.videoPlayerRunning = False
+
+    def on_pBtn_playback_get_clicked(self):
+        value = self.api.videoPlayerRunning
+        self.ui.textEdit_video_player.setPlainText(str(value))
+
+    def on_pBtn_frameno_get_clicked(self):
+        value = self.api.videoPlayerCurrentFrame
+        self.ui.sBox_frameno.setValue(value)
+
+    def on_pBtn_frameno_set_clicked(self):
+        value = self.ui.sBox_frameno.value()
+        self.api.videoPlayerCurrentFrame = value
+
+    def on_pBtnTest_clicked(self):
+        pass
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)

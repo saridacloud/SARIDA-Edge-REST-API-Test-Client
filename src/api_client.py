@@ -75,6 +75,26 @@ class SaridaEdgeApiWrapper:
             result_polygon.append(QPoint(current_point.x, current_point.y))
 
         return result_polygon
+    
+    @property
+    def videoPlayerRunning(self) -> bool:
+        device_client = swagger_client.DeviceApi(self.api_client)
+        return device_client.control_video_player_running_get()
+    
+    @videoPlayerRunning.setter
+    def videoPlayerRunning(self, value: bool) -> None:
+        device_client = swagger_client.DeviceApi(self.api_client)
+        device_client.control_video_player_running_put(value)
+        
+    @property
+    def videoPlayerCurrentFrame(self) -> int:
+        device_client = swagger_client.DeviceApi(self.api_client)
+        return device_client.control_video_player_current_frame_no_get()
+    
+    @videoPlayerCurrentFrame.setter
+    def videoPlayerCurrentFrame(self, value: int) -> None:
+        device_client = swagger_client.DeviceApi(self.api_client)
+        device_client.control_video_player_current_frame_no_put(value)
 
 
 if __name__ == '__main__':
