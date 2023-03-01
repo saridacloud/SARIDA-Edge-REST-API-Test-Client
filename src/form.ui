@@ -19,7 +19,7 @@
      <item>
       <widget class="QTabWidget" name="tabWidget">
        <property name="currentIndex">
-        <number>1</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="tabTextOutput">
         <attribute name="title">
@@ -41,6 +41,9 @@
            <property name="frameShape">
             <enum>QFrame::Box</enum>
            </property>
+           <property name="lineWidth">
+            <number>3</number>
+           </property>
            <property name="text">
             <string>Das ist ein Test!!!!</string>
            </property>
@@ -55,6 +58,76 @@
             <enum>Qt::Horizontal</enum>
            </property>
           </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tab">
+        <attribute name="title">
+         <string>Video Player</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <widget class="QTextEdit" name="textEdit"/>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_3">
+           <item>
+            <widget class="QGroupBox" name="groupBox">
+             <property name="title">
+              <string>Playback</string>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_4">
+              <item>
+               <widget class="QPushButton" name="pBtn_playback_play">
+                <property name="text">
+                 <string>Play</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pBtn_playback_pause">
+                <property name="text">
+                 <string>Pause</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pBtn_playback_get">
+                <property name="text">
+                 <string>Get Status</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_2">
+             <property name="title">
+              <string>Frame number</string>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_5">
+              <item>
+               <widget class="QPushButton" name="pBtn_frameno_get">
+                <property name="text">
+                 <string>Get current frame no</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSpinBox" name="sBox_frameno"/>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pBtn_frameno_set">
+                <property name="text">
+                 <string>Set current frame no</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
          </item>
         </layout>
        </widget>
@@ -79,7 +152,7 @@
        <item>
         <widget class="QPushButton" name="pBtnTest">
          <property name="text">
-          <string>Test 2</string>
+          <string>Test Button</string>
          </property>
         </widget>
        </item>

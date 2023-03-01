@@ -15,9 +15,10 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
-    QPushButton, QSizePolicy, QSlider, QTabWidget,
-    QTextEdit, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QFrame, QGroupBox, QHBoxLayout,
+    QLabel, QPushButton, QSizePolicy, QSlider,
+    QSpinBox, QTabWidget, QTextEdit, QVBoxLayout,
+    QWidget)
 
 class Ui_MainWidget(object):
     def setupUi(self, MainWidget):
@@ -59,6 +60,65 @@ class Ui_MainWidget(object):
         self.verticalLayout_4.addWidget(self.hSliderDrawRange)
 
         self.tabWidget.addTab(self.tabVisualOutput, "")
+        self.tab = QWidget()
+        self.tab.setObjectName(u"tab")
+        self.verticalLayout = QVBoxLayout(self.tab)
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.textEdit = QTextEdit(self.tab)
+        self.textEdit.setObjectName(u"textEdit")
+
+        self.verticalLayout.addWidget(self.textEdit)
+
+        self.horizontalLayout_3 = QHBoxLayout()
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.groupBox = QGroupBox(self.tab)
+        self.groupBox.setObjectName(u"groupBox")
+        self.horizontalLayout_4 = QHBoxLayout(self.groupBox)
+        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
+        self.pBtn_playback_play = QPushButton(self.groupBox)
+        self.pBtn_playback_play.setObjectName(u"pBtn_playback_play")
+
+        self.horizontalLayout_4.addWidget(self.pBtn_playback_play)
+
+        self.pBtn_playback_pause = QPushButton(self.groupBox)
+        self.pBtn_playback_pause.setObjectName(u"pBtn_playback_pause")
+
+        self.horizontalLayout_4.addWidget(self.pBtn_playback_pause)
+
+        self.pBtn_playback_get = QPushButton(self.groupBox)
+        self.pBtn_playback_get.setObjectName(u"pBtn_playback_get")
+
+        self.horizontalLayout_4.addWidget(self.pBtn_playback_get)
+
+
+        self.horizontalLayout_3.addWidget(self.groupBox)
+
+        self.groupBox_2 = QGroupBox(self.tab)
+        self.groupBox_2.setObjectName(u"groupBox_2")
+        self.horizontalLayout_5 = QHBoxLayout(self.groupBox_2)
+        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
+        self.pBtn_frameno_get = QPushButton(self.groupBox_2)
+        self.pBtn_frameno_get.setObjectName(u"pBtn_frameno_get")
+
+        self.horizontalLayout_5.addWidget(self.pBtn_frameno_get)
+
+        self.sBox_frameno = QSpinBox(self.groupBox_2)
+        self.sBox_frameno.setObjectName(u"sBox_frameno")
+
+        self.horizontalLayout_5.addWidget(self.sBox_frameno)
+
+        self.pBtn_frameno_set = QPushButton(self.groupBox_2)
+        self.pBtn_frameno_set.setObjectName(u"pBtn_frameno_set")
+
+        self.horizontalLayout_5.addWidget(self.pBtn_frameno_set)
+
+
+        self.horizontalLayout_3.addWidget(self.groupBox_2)
+
+
+        self.verticalLayout.addLayout(self.horizontalLayout_3)
+
+        self.tabWidget.addTab(self.tab, "")
 
         self.mainVLayout.addWidget(self.tabWidget)
 
@@ -88,7 +148,7 @@ class Ui_MainWidget(object):
 
         self.retranslateUi(MainWidget)
 
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(2)
 
 
         QMetaObject.connectSlotsByName(MainWidget)
@@ -99,8 +159,16 @@ class Ui_MainWidget(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabTextOutput), QCoreApplication.translate("MainWidget", u"Text output", None))
         self.visualOutputLabel.setText(QCoreApplication.translate("MainWidget", u"Das ist ein Test!!!!", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabVisualOutput), QCoreApplication.translate("MainWidget", u"Visual output", None))
+        self.groupBox.setTitle(QCoreApplication.translate("MainWidget", u"Playback", None))
+        self.pBtn_playback_play.setText(QCoreApplication.translate("MainWidget", u"Play", None))
+        self.pBtn_playback_pause.setText(QCoreApplication.translate("MainWidget", u"Pause", None))
+        self.pBtn_playback_get.setText(QCoreApplication.translate("MainWidget", u"Get Status", None))
+        self.groupBox_2.setTitle(QCoreApplication.translate("MainWidget", u"Frame number", None))
+        self.pBtn_frameno_get.setText(QCoreApplication.translate("MainWidget", u"Get current frame no", None))
+        self.pBtn_frameno_set.setText(QCoreApplication.translate("MainWidget", u"Set current frame no", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("MainWidget", u"Video Player", None))
         self.pBtnGetCurrent.setText(QCoreApplication.translate("MainWidget", u"GET Current", None))
         self.pBtnGetCurrentDetails.setText(QCoreApplication.translate("MainWidget", u"GET Current Details", None))
-        self.pBtnTest.setText(QCoreApplication.translate("MainWidget", u"Test 2", None))
+        self.pBtnTest.setText(QCoreApplication.translate("MainWidget", u"Test Button", None))
     # retranslateUi
 
