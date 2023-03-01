@@ -3,7 +3,7 @@ import json
 
 import swagger_client
 from swagger_client.rest import ApiException
-from swagger_client.models import FrameAnalysisDetails, AnalysisDetails, Polygon, Point
+from swagger_client.models import FrameAnalysisDetails, AnalysisDetails, Polygon, Point, Size
 
 from PySide6.QtGui import QPolygon
 from PySide6.QtCore import QPoint
@@ -43,7 +43,18 @@ class SaridaEdgeApiWrapper:
                 'Exception when calling AnalysisApi->analysis_results_details_current_get: %s\n'
                 % e
             )
-        return ''
+        return None
+    
+    def analysisVideoResolutionGet(self) -> Size:
+        try:
+            analysis_client = swagger_client.AnalysisApi(self.api_client)
+            return analysis_client.analysis_video_resolution_get()
+        except ApiException as e:
+            print(
+                'Exception when calling AnalysisApi->analysis_results_details_current_get: %s\n'
+                % e
+            )
+        return None
 
     def analysisResultsDetailsToQPolygon(
         self, call_result: FrameAnalysisDetails

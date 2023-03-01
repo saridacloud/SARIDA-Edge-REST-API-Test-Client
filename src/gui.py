@@ -4,6 +4,7 @@ import sys
 from PySide6 import QtCore, QtGui, QtWidgets
 from PySide6.QtGui import QPolygon
 from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QMessageBox
 
 # Important:
 # You need to run the following command to generate the ui_form.py file
@@ -58,8 +59,18 @@ class MainWidget(QtWidgets.QWidget):
         self.ui.visualOutputLabel.setPixmap(canvas)
         
     def setCurrentPolygonFromApi(self) -> QPolygon:
+        # Get canvas size
+        canvas_size = self.api.analysisVideoResolutionGet()
+        if not canvas_size:
+            QMessageBox.critical(self, "API Error", "Failed to call /analysis/video/resolution")
+            return
+        self.setCanvasSize(width=canvas_size.width, height=canvas_size.height)
+        
         # Get polygon from REST call
         call_result = self.api.analysisResultsDetailsCurrentGet()
+        if not call_result:
+            QMessageBox.critical(self, "API Error", "Failed to call /analysis/results/details/current")
+            return
         self.currentPolygon = self.api.analysisResultsDetailsToQPolygon(
             call_result=call_result
         )

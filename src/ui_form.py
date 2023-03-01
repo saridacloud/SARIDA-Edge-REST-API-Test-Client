@@ -47,6 +47,7 @@ class Ui_MainWidget(object):
         self.visualOutputLabel = QLabel(self.tabVisualOutput)
         self.visualOutputLabel.setObjectName(u"visualOutputLabel")
         self.visualOutputLabel.setFrameShape(QFrame.Box)
+        self.visualOutputLabel.setLineWidth(3)
 
         self.verticalLayout_4.addWidget(self.visualOutputLabel)
 
