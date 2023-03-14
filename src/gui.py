@@ -32,7 +32,8 @@ class MainWidget(QtWidgets.QWidget):
         self.ui.pBtnGetCurrentDetails.clicked.connect(
             self.on_pBtnGetCurrentDetails_clicked
         )
-        self.ui.pBtnTest.clicked.connect(self.on_pBtnTest_clicked)
+        self.ui.pBtnTest_set.clicked.connect(self.on_pBtnTest_PUT_clicked)
+        self.ui.pBtnTest_get.clicked.connect(self.on_pBtnTest_GET_clicked)
         self.ui.hSliderDrawRange.valueChanged.connect(
             self.on_hSliderDrawRange_valueChanged
         )
@@ -130,8 +131,12 @@ class MainWidget(QtWidgets.QWidget):
         value = self.ui.sBox_frameno.value()
         self.api.videoPlayerCurrentFrame = value
 
-    def on_pBtnTest_clicked(self):
-        pass
+    def on_pBtnTest_PUT_clicked(self):
+        self.api.testCallSetCameraState()
+    
+    def on_pBtnTest_GET_clicked(self):
+        camera_state = self.api.testCallGetCameraState()
+        self.ui.textEdit_video_player.setPlainText(camera_state)
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)

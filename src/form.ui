@@ -154,9 +154,16 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pBtnTest">
+        <widget class="QPushButton" name="pBtnTest_set">
          <property name="text">
-          <string>Test Button</string>
+          <string>Test Button PUT</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pBtnTest_get">
+         <property name="text">
+          <string>Test Button GET</string>
          </property>
         </widget>
        </item>

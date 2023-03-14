@@ -135,10 +135,15 @@ class Ui_MainWidget(object):
 
         self.horizontalLayout.addWidget(self.pBtnGetCurrentDetails)
 
-        self.pBtnTest = QPushButton(MainWidget)
-        self.pBtnTest.setObjectName(u"pBtnTest")
+        self.pBtnTest_set = QPushButton(MainWidget)
+        self.pBtnTest_set.setObjectName(u"pBtnTest_set")
 
-        self.horizontalLayout.addWidget(self.pBtnTest)
+        self.horizontalLayout.addWidget(self.pBtnTest_set)
+
+        self.pBtnTest_get = QPushButton(MainWidget)
+        self.pBtnTest_get.setObjectName(u"pBtnTest_get")
+
+        self.horizontalLayout.addWidget(self.pBtnTest_get)
 
 
         self.mainVLayout.addLayout(self.horizontalLayout)
@@ -170,6 +175,7 @@ class Ui_MainWidget(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("MainWidget", u"Video Player", None))
         self.pBtnGetCurrent.setText(QCoreApplication.translate("MainWidget", u"GET Current", None))
         self.pBtnGetCurrentDetails.setText(QCoreApplication.translate("MainWidget", u"GET Current Details", None))
-        self.pBtnTest.setText(QCoreApplication.translate("MainWidget", u"Test Button", None))
+        self.pBtnTest_set.setText(QCoreApplication.translate("MainWidget", u"Test Button PUT", None))
+        self.pBtnTest_get.setText(QCoreApplication.translate("MainWidget", u"Test Button GET", None))
     # retranslateUi
 

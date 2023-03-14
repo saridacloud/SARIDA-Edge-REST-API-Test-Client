@@ -4,6 +4,7 @@ import json
 import swagger_client
 from swagger_client.rest import ApiException
 from swagger_client.models import FrameAnalysisDetails, AnalysisDetails, Polygon, Point, Size
+from swagger_client.models import CameraState, FrameTime, Orientation
 
 from PySide6.QtGui import QPolygon
 from PySide6.QtCore import QPoint
@@ -19,6 +20,8 @@ class SaridaEdgeApiWrapper:
             if 'SWAGGER_CONFIG' in config:
                 self.configuration.host = config['SWAGGER_CONFIG']['host']
                 self.configuration.temp_folder_path = config['SWAGGER_CONFIG']['temp_folder_path']
+                self.configuration.logger_file = config['SWAGGER_CONFIG']['log_file']
+                self.configuration.debug = config['SWAGGER_CONFIG']['debug']
         except KeyError as e:
             print('Exception while reading config: %s\n' % e)
         self.api_client = swagger_client.ApiClient(configuration=self.configuration)
@@ -95,6 +98,29 @@ class SaridaEdgeApiWrapper:
     def videoPlayerCurrentFrame(self, value: int) -> None:
         device_client = swagger_client.DeviceApi(self.api_client)
         device_client.control_video_player_current_frame_no_put(value)
+        
+    def testCallSetCameraState(self) -> None:
+        cam_state = CameraState(
+            frame_time=None,
+            path_position=10.0,
+            camera_orientation=Orientation(
+                rotation_angle=1.0,
+                tilt_angle=2.0,
+                pan_angle=3.0
+            ),
+            lift_angle=123.0
+        )
+        
+        # cam_state = CameraState()
+        
+        device_client = swagger_client.CameraApi(self.api_client)
+        device_client.camera_state_put(cam_state)
+        pass
+    
+    def testCallGetCameraState(self) -> str:
+        device_client = swagger_client.CameraApi(self.api_client)
+        camera_state = device_client.camera_state_get()
+        return str(camera_state)
 
 
 if __name__ == '__main__':
